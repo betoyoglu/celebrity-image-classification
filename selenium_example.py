@@ -7,10 +7,12 @@ from bs4 import BeautifulSoup
 from PIL import Image
 from io import BytesIO
 from urllib.parse import urljoin
+import os 
+import base64
 
 driver = webdriver.Chrome()
 driver.get("https://www.google.com/imghp")
-search_box= driver.find_element(By.CSS_SELECTOR, '.gLFyf[name="q"]').send_keys("lee taeyong", Keys.ENTER)
+search_box= driver.find_element(By.CSS_SELECTOR, '.gLFyf[name="q"]').send_keys("byun baekhyun", Keys.ENTER)
 
 time.sleep(5)
 
@@ -20,21 +22,25 @@ for _ in range(2):
     time.sleep(2) 
 
 # Resim elementlerini bulun
-image_elements = driver.find_elements(By.CSS_SELECTOR, '.YQ4gaf img[src]')
+image_elements = driver.find_elements(By.CLASS_NAME, 'YQ4gaf')
 
-# İlk 5 resim URL'sini al ve indir
-for index, img in enumerate(image_elements[:5]):
-    try:
-        img_url = img.get_attribute('src')
-        if img_url:
-            response = requests.get(img_url, stream=True)
-            if response.status_code == 200:
-                with open(f"taeyong{index}.jpg", 'wb') as f:
-                    for chunk in response.iter_content(1024):
-                        f.write(chunk)
-            else:
-                print(f"Error downloading image {img_url}: status code {response.status_code}")
-    except Exception as e:
-        print(f"Error: {e}")
+save_dir = "baekhyun_images"
+os.makedirs(save_dir, exist_ok=True)
+
+time.sleep(2)
+
+for i, img in enumerate(image_elements[:300]):
+    img_url = img.get_attribute("src")
+    
+    if img_url.startswith("data:image/jpeg;base64,"):
+        img_data = img_url.replace("data:image/jpeg;base64,", "")
+        img_data = base64.b64decode(img_data)
+        
+        img_path = os.path.join(save_dir, f"baekhyun_{i}.jpg")
+        with open(img_path, "wb") as f:
+            f.write(img_data)
+        print(f"Resim {i} kaydedildi: {img_path}")
+    else:
+        print(f"Resim {i} için geçersiz URL: {img_url}")
 
 driver.quit()
