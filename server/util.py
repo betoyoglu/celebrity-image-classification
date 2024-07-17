@@ -79,14 +79,16 @@ def get_cv2_image_from_base64_string(b64str):
     return img
 
 def get_b64_test_image_for_virat():
-    with open("./server/baek.txt") as f:
+    with open("./server/seulgi.txt") as f:
         return f.read()
     
 if __name__ == "__main__":
     load_saved_artifacts()
     #print(classify_image(get_b64_test_image_for_virat(), None))
 
-    print(classify_image(None, "mark_0.jpg"))
-    print(classify_image(None, "seulgi_6.jpg"))
-    print(classify_image(None, "taeyong_4.jpg"))
-    print(classify_image(None, "yunjin_1.jpg"))
+
+    print(classify_image(None, "./server/mark_0.jpg"))
+    print(classify_image(None, "./server/seulgi_6.jpg"))
+    print(classify_image(None, "./server/taeyong_4.jpg"))
+    print(classify_image(None, "./server/yunjin_1.jpg"))
+
