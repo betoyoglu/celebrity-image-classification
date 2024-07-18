@@ -21,7 +21,7 @@ function init() {
         var url = "http://127.0.0.1:5000/classify_image";
 
         $.post(url, {
-            image_data: file.dataURL
+            image_data: imageData
         },function(data, status) {
             /* 
             Below is a sample response if you have two faces in an image lets say virat and roger together.
@@ -58,7 +58,7 @@ function init() {
                 $("#error").show();
                 return;
             }
-            let players = ["lee_taeyong", "kang_seulgi", "mark_lee", "huh_yunjin", "byun_baekhyun"];
+            let players = ["croppedtaeyong_images", "croppedseulgi_images", "croppedmark_images", "croppedyunjin_images", "croppedbaekhyun_images"];
             
             let match = null;
             let bestScore = -1;
